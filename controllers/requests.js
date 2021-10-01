@@ -1,46 +1,31 @@
 
-const axios = require('axios')
+const redis = require('./redis');
+const KEY = "LAST_RESOURCE";
 
 module.exports = function (app) {
 
-    let localStorage;
-
+    // update cache with incoming data
     app.post('/api/resource', async function (req, res) {
         try {
-            console.log("POST body", req.body)
-            localStorage = req.body;
+            console.log("POST body", req.body);
+            // using redis cahce to store the incoming value so it will be available for same network
+            await redis.save(KEY,req.body)
             return res.status(200).send({ message: "success" });
         } catch (err) {
             return res.status(err.status || 500).send(err);
         }
     });
 
+    // get the last incoming data from cache
     app.get('/api/resource', async function (req, res) {
         try {
-            let data = await getLocalStorage();
+            // using redis cache to get the last saved value
+            let data = await redis.get(KEY);
+            console.log("GET body", data);
             return res.status(200).send(data);
         } catch (err) {
             return res.status(err.status || 500).send(err);
         }
     });
-
-    app.get('/api/get/last', async function (req, res) {
-        try {
-            return res.status(200).send(localStorage);
-        } catch (err) {
-            return res.status(err.status || 500).send(err);
-        }
-    });
-
-    async function getLocalStorage() {
-        try {
-            let res = await axios.get('localhost:8080/api/get/last'); //TODO: add headers
-            console.log(`statusCode: ${res.status}`)
-            return res;
-        } catch (error) {
-            console.error('error',error)
-            throw error;
-        }
-    }
 
 }
