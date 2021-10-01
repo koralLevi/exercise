@@ -44,6 +44,10 @@ async function get(key) {
                 if (error) {
                     reject(error);
                 }
+                // in case of key not found in the cache
+                if(!res){
+                    reject(new Error(`Resource not found`))
+                }
                 resolve(JSON.parse(res))
             });
         }
