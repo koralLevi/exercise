@@ -5,6 +5,7 @@ const REDIS_PORT = '6379';
 // --- server configuration ---
 const SERVER_PORT = 8080;
 
+// --- http status ---
 const STATUS = {
     OK: 200,
     BAD_REQUEST: 400,
@@ -18,4 +19,4 @@ const STATUS = {
     SERVICE_UNAVAILABLE: 503
 }
 
-module.exports = { REDIS_HOSTNAME, REDIS_PORT, SERVER_PORT,STATUS };
+module.exports = { REDIS_HOSTNAME, REDIS_PORT, SERVER_PORT, STATUS };
