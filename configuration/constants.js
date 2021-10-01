@@ -1,5 +1,5 @@
 // --- redis configuration ---
-const REDIS_HOSTNAME = '';
+const REDIS_HOSTNAME = 'redis';
 const REDIS_PORT = '6379';
 
 // --- server configuration ---
