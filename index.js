@@ -6,7 +6,7 @@ var app = express();
 require('./configuration/middleware')(app);
 require('./controllers/requests')(app);
 require('./configuration/route')(app);
-require('./controllers/redis').initRedisConnection();
+require('./services/redis').initRedisConnection();
 
 var server = http.createServer(app).listen(SERVER_PORT, function () {
    console.info(`Server running on port: ${SERVER_PORT}`);

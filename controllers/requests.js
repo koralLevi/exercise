@@ -1,5 +1,5 @@
 
-const redis = require('./redis');
+const redis = require('../services/redis');
 const KEY = "LAST_RESOURCE";
 const { STATUS } = require('../configuration/constants');
 
