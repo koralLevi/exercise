@@ -1,6 +1,7 @@
+
 // --- redis configuration ---
-const REDIS_HOSTNAME = 'redis';
-const REDIS_PORT = '6379';
+const REDIS_HOSTNAME = process.env.REDIS_HOSTNAME || 'redis';
+const REDIS_PORT = process.env.REDIS_PORT ||  '6379';
 
 // --- server configuration ---
 const SERVER_PORT = 8080;

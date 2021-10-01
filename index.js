@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express');
 const http = require('http');
 const { SERVER_PORT } = require('./configuration/constants');
