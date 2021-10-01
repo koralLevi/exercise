@@ -13,7 +13,7 @@ function initRedisConnection() {
         console.error(`${new Date()} - Redis connection error`, error);
         connected = false;
     });
-    
+
     // we are listening for reconnection purpose - if there is a connection lost it will try to reconnect while service running
     client.on("connect", () => {
         console.info(`${new Date()} - Redis Successfully Connected`);
@@ -23,7 +23,7 @@ function initRedisConnection() {
 
 async function save(key, value) {
     return new Promise((resolve, reject) => {
-        if(connected){
+        if (connected) {
             client.set(key, JSON.stringify(value), (error, res) => {
                 if (error) {
                     reject(error);
@@ -31,7 +31,7 @@ async function save(key, value) {
                 resolve(true)
             });
         }
-        else{
+        else {
             reject(new Error(`Cache is down`))
         }
     })
@@ -39,12 +39,17 @@ async function save(key, value) {
 
 async function get(key) {
     return new Promise((resolve, reject) => {
-        client.get(key, (error, res) => {
-            if (error) {
-                reject(error);
-            }
-            resolve(JSON.parse(res))
-        });
+        if (connected) {
+            client.get(key, (error, res) => {
+                if (error) {
+                    reject(error);
+                }
+                resolve(JSON.parse(res))
+            });
+        }
+        else {
+            reject(new Error(`Cache is down`))
+        }
     })
 }
 
