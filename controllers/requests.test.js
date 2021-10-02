@@ -11,10 +11,11 @@ describe('API - resource', function () {
     let redisSetStub;
     let redisGetStub;
     let redisGetSpy;
+    let mockData = { mock: true };
 
     beforeEach(async () => {
         redis.setConnected(true);
-        redisSetStub = sandbox.stub(redis.getClient(), 'set').resolves([{ staaaa: "mmmm" }]);
+        redisSetStub = sandbox.stub(redis.getClient(), 'set').resolves([mockData]);
     })
 
     afterEach(() => {
@@ -26,7 +27,7 @@ describe('API - resource', function () {
     it('POST - it should return a success message', function (done) {
         request(app)
             .post('/api/resource')
-            .send('name=john')
+            .send('mock=john')
             .set('Accept', 'application/json')
             .expect(200, { message: 'success' }, done);
     });
@@ -35,14 +36,14 @@ describe('API - resource', function () {
         redis.setConnected(false);
         request(app)
             .post('/api/resource')
-            .send('name=john')
+            .send('mock=john')
             .set('Accept', 'application/json')
             .expect(500, done);
     });
 
     it('GET - it should responds with json', function (done) { //TODO: fix this - need to stub the get
-        redisGetStub = sandbox.stub(redis, 'get').resolves([{ staaaa: "mmmm" }]);
-        redisGetSpy = sinon.spy(redis, 'get')
+        redisGetStub = sandbox.stub(redis, 'getValue').resolves([mockData]);
+        redisGetSpy = sinon.spy(redis, 'getValue')
         request(app)
             .get('/api/resource')
             .set('Accept', 'application/json')

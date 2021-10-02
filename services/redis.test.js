@@ -22,7 +22,7 @@ describe('Redis cache api test', () => {
 
         it('it should return a success', (done) => {
             redis.setConnected(true);
-            redis.set(redisKey, { test: true }).then((result) => {
+            redis.setValue(redisKey, { test: true }).then((result) => {
                 expect(result).to.equal(true);
                 done();
             })
@@ -30,7 +30,7 @@ describe('Redis cache api test', () => {
 
         it('it should return cache is down', (done) => {
             redis.setConnected(false);
-            redis.set(redisKey, { test: true }).catch((error) => {
+            redis.setValue(redisKey, { test: true }).catch((error) => {
                 expect(error.message).to.equal('Cache is down');
                 done();
             })
@@ -51,7 +51,7 @@ describe('Redis cache api test', () => {
 
         // it('it should return a data from cache', (done) => {
         //     redis.setConnected(true);
-        //     redis.get(redisKey).then((result) => {
+        //     redis.getValue(redisKey).then((result) => {
         //         console.log("2222222222 result", result)
         //         // expect(result).to.deep.equal([mockData])
         //         done();
@@ -60,7 +60,7 @@ describe('Redis cache api test', () => {
 
         it('it should return cache is down', (done) => {
             redis.setConnected(false);
-            redis.get(redisKey).catch((error) => {
+            redis.getValue(redisKey).catch((error) => {
                 expect(error.message).to.equal('Cache is down');
                 done();
             })

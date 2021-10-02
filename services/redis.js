@@ -1,7 +1,7 @@
 const { REDIS_HOSTNAME, REDIS_PORT } = require('../configuration/constants');
 const redis = require('redis');
+let connected = false;
 let client;
-var connected = false;
 
 function initRedisConnection() {
     client = redis.createClient({
@@ -21,10 +21,10 @@ function initRedisConnection() {
     });
 }
 
-async function set(key, value) {
+async function setValue(key, value) {
 
     if (connected) {
-        if(!value){
+        if (!value) {
             throw new Error('Resource not valid')
         }
         try {
@@ -39,17 +39,17 @@ async function set(key, value) {
     }
 }
 
-async function get(key) {
-    console.log("--------------------get",key)
-    console.log("--------------------get params",connected)
+async function getValue(key) {
+    console.log("--------------------get", key)
+    console.log("--------------------get params", connected)
     return new Promise(async (resolve, reject) => {
-        if (connected) {    
+        if (connected) {
             client.get(key, (error, res) => {
                 if (error) {
                     reject(error);
                 }
                 // in case of key not found in the cache
-                if(!res){
+                if (!res) {
                     reject(new Error(`Resource not found`))
                 }
                 resolve(JSON.parse(res))
@@ -61,14 +61,9 @@ async function get(key) {
     })
 }
 
-function setConnected(value) {
-    connected = value;
-}
+function setConnected(value) { connected = value; }
 
-function getClient() {
-    return client;
-}
+function getClient() { return client; }
 
-
-module.exports = { initRedisConnection, set, get, setConnected, getClient }
+module.exports = { initRedisConnection, setValue, getValue, setConnected, getClient }
 

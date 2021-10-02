@@ -9,5 +9,4 @@ module.exports = function (app) {
         // here we should implement token validation for more secure requests
         next(); 
     });
-    //TODO: add /api
 }
