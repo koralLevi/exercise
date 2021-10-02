@@ -18,10 +18,12 @@ project structure:
 HOW TO RUN THE SERVICE:
 
 *   SERVER 243:
+    sudo -i
     docker-compose up -d
     docker-compose -f docker-compose-node.yml up -d
 
 *   SERVER 3:
+    sudo -i
     docker-compose -f docker-compose-node.yml up -d
 
 
