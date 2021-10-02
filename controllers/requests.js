@@ -20,9 +20,7 @@ module.exports = function (app) {
     app.get('/api/resource', async function (req, res) {
         try {
             // using redis cache to get the last saved value
-            console.log("++++++++++++ BEFORE")
             let data = await redis.getValue(KEY);
-            console.log("************* data",data)
             return res.status(STATUS.OK).send(data);
         } catch (err) {
             return res.status(err.status || STATUS.INTERNAL_ERROR).send(err);

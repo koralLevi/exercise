@@ -26,4 +26,4 @@ HOW TO RUN THE SERVICE:
 
 
 NOTES:
-*   npm audit --json pass successfully
+*   npm audit --json passed successfully

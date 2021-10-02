@@ -1,16 +1,14 @@
 let app = require('../index');
+let redis = require('../services/redis');
 require('./requests')(app);
 const request = require('supertest');
-var redis = require('../services/redis');
 const sinon = require('sinon');
-var sandbox = sinon.createSandbox();
+const sandbox = sinon.createSandbox();
 
 describe('API - resource', function () {
 
-    //TODO: stub on redis set
     let redisSetStub;
     let redisGetStub;
-    let redisGetSpy;
     let mockData = { mock: true };
 
     beforeEach(async () => {
@@ -20,9 +18,7 @@ describe('API - resource', function () {
 
     afterEach(() => {
         sandbox.restore();
-        sinon.restore();
     })
-
 
     it('POST - it should return a success message', function (done) {
         request(app)
@@ -41,9 +37,8 @@ describe('API - resource', function () {
             .expect(500, done);
     });
 
-    it('GET - it should responds with json', function (done) { //TODO: fix this - need to stub the get
+    it('GET - it should responds with json', function (done) {
         redisGetStub = sandbox.stub(redis, 'getValue').resolves([mockData]);
-        redisGetSpy = sinon.spy(redis, 'getValue')
         request(app)
             .get('/api/resource')
             .set('Accept', 'application/json')
@@ -58,5 +53,4 @@ describe('API - resource', function () {
             .set('Accept', 'application/json')
             .expect(500, done);
     });
-
 });

@@ -10,7 +10,7 @@ function initRedisConnection() {
     });
 
     client.on("error", (error) => {
-        // console.error(`${new Date()} - Redis connection error`, error);
+        console.error(`${new Date()} - Redis connection error`, error);
         connected = false;
     });
 
@@ -22,7 +22,6 @@ function initRedisConnection() {
 }
 
 async function setValue(key, value) {
-
     if (connected) {
         if (!value) {
             throw new Error('Resource not valid')
@@ -40,8 +39,6 @@ async function setValue(key, value) {
 }
 
 async function getValue(key) {
-    console.log("--------------------get", key)
-    console.log("--------------------get params", connected)
     return new Promise(async (resolve, reject) => {
         if (connected) {
             client.get(key, (error, res) => {

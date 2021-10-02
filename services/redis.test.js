@@ -6,7 +6,7 @@ var redis = require('./redis');
 
 describe('Redis cache api test', () => {
 
-    let mockData = { name: "no", lastname: "body" }
+    let mockData = { name: "no", lastname: "body" };
     let redisKey = "key1";
 
     context('Save method', () => {
@@ -44,19 +44,6 @@ describe('Redis cache api test', () => {
         beforeEach(async () => {    
             redisGetStub = sinon.stub(redis.getClient(), 'get').resolves([mockData]);
         })
-
-        afterEach(() => {
-            sinon.restore();
-        })
-
-        // it('it should return a data from cache', (done) => {
-        //     redis.setConnected(true);
-        //     redis.getValue(redisKey).then((result) => {
-        //         console.log("2222222222 result", result)
-        //         // expect(result).to.deep.equal([mockData])
-        //         done();
-        //     })
-        // });
 
         it('it should return cache is down', (done) => {
             redis.setConnected(false);
