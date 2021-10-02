@@ -23,9 +23,11 @@ function initRedisConnection() {
 
 async function set(key, value) {
     if (connected) {
+        if(!value){
+            throw new Error('Resource not valid')
+        }
         try {
-            let res = await client.set(key, JSON.stringify(value));
-            console.log("resresresresresres", res)
+            await client.set(key, JSON.stringify(value));
             return true;
         } catch (error) {
             throw error;
@@ -38,13 +40,11 @@ async function set(key, value) {
 
 async function get(key) {
     return new Promise(async (resolve, reject) => {
-        if (connected) {
+        if (connected) {    
             client.get(key, (error, res) => {
                 if (error) {
                     reject(error);
                 }
-                console.log("getgetgetgetget", res)
-
                 // in case of key not found in the cache
                 if(!res){
                     reject(new Error(`Resource not found`))

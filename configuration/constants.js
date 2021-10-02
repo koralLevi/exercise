@@ -1,6 +1,6 @@
 
 // --- redis configuration ---
-const REDIS_HOSTNAME = process.env.REDIS_HOSTNAME || 'redis';
+const REDIS_HOSTNAME = process.env.REDIS_HOSTNAME || 'bismart-dev-1';
 const REDIS_PORT = process.env.REDIS_PORT ||  '6379';
 
 // --- server configuration ---

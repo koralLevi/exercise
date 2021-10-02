@@ -13,3 +13,5 @@ var server = http.createServer(app).listen(SERVER_PORT, function () {
    console.info(`Server running on port: ${SERVER_PORT}`);
 });
 
+module.exports = app; // for testing
+

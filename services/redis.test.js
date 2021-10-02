@@ -6,13 +6,14 @@ var redis = require('./redis');
 
 describe('Redis cache api test', () => {
 
+    let mockData = { name: "no", lastname: "body" }
+    let redisKey = "key1";
+
     context('Save method', () => {
-        let redisStub;
-        let mockSet = { name: "no", lastname: "body" }
-        
+        let redisSetStub;
+
         beforeEach(async () => {
-            redisStub = sandbox.stub(redis.getClient(), 'set').resolves([mockSet]);
-            console.log("redisStub",redisStub.set)
+            redisSetStub = sandbox.stub(redis.getClient(), 'set').resolves([mockData]);
         })
 
         afterEach(() => {
@@ -21,22 +22,48 @@ describe('Redis cache api test', () => {
 
         it('it should return a success', (done) => {
             redis.setConnected(true);
-
-            redis.set('key1', { test: true }).then((result) => {
-                console.log("0000000000 result", result)
+            redis.set(redisKey, { test: true }).then((result) => {
                 expect(result).to.equal(true);
                 done();
             })
         });
 
-        // working
         it('it should return cache is down', (done) => {
             redis.setConnected(false);
-            redis.set('key1', { test: true }).catch((error) => {
+            redis.set(redisKey, { test: true }).catch((error) => {
                 expect(error.message).to.equal('Cache is down');
                 done();
             })
         });
     })
 
+
+    context('GET method', () => {
+        let redisGetStub;
+
+        beforeEach(async () => {    
+            redisGetStub = sinon.stub(redis.getClient(), 'get').resolves([mockData]);
+        })
+
+        afterEach(() => {
+            sandbox.restore();
+        })
+
+        // it('it should return a data from cache', (done) => {
+        //     redis.setConnected(true);
+        //     redis.get(redisKey).then((result) => {
+        //         console.log("2222222222 result", result)
+        //         // expect(result).to.deep.equal([mockData])
+        //         done();
+        //     })
+        // });
+
+        it('it should return cache is down', (done) => {
+            redis.setConnected(false);
+            redis.get(redisKey).catch((error) => {
+                expect(error.message).to.equal('Cache is down');
+                done();
+            })
+        });
+    })
 })
