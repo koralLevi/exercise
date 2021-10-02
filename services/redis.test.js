@@ -46,7 +46,7 @@ describe('Redis cache api test', () => {
         })
 
         afterEach(() => {
-            sandbox.restore();
+            sinon.restore();
         })
 
         // it('it should return a data from cache', (done) => {
